@@ -2,9 +2,10 @@ import streamlit as st
 from supabase import create_client
 import uuid
 
-# 1. Koneksi ke Supabase (Masukkan data dari Langkah 1)
-SUPABASE_URL = "URL_SUPABASE_KAMU"
-SUPABASE_KEY = "KEY_API_KAMU"
+# MENGAMBIL DATA DARI SECRETS STREAMLIT (LEBIH AMAN & STABIL)
+SUPABASE_URL = st.secrets["SUPABASE_URL"]
+SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
+
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 st.set_page_config(page_title="Our Memory Vault", page_icon="📸")
