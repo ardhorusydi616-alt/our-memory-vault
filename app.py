@@ -43,12 +43,19 @@ files = supabase.storage.from_("memories").list()
 if not files:
     st.info("Belum ada kenangan. Yuk, upload foto pertama kita!")
 else:
-    # Menampilkan file dalam grid
     cols = st.columns(3)
     for idx, file in enumerate(files):
-        public_url = supabase.storage.from_("memories").get_public_url(file['name'])
+        file_name = file['name']
+        public_url = supabase.storage.from_("memories").get_public_url(file_name)
+        
         with cols[idx % 3]:
-            if file['name'].endswith('.mp4'):
+            if file_name.endswith('.mp4'):
                 st.video(public_url)
             else:
                 st.image(public_url, use_container_width=True)
+            
+            # TOMBOL HAPUS
+            if st.button(f"Hapus", key=f"del_{file_name}"):
+                supabase.storage.from_("memories").remove([file_name])
+                st.success("Terhapus!")
+                st.rerun()
